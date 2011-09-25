@@ -1,0 +1,49 @@
+<%
+    var men = ramen[menid];
+%>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+     xmlns:fb="https://www.facebook.com/2008/fbml"> 
+<head prefix="og: http://ogp.me/ns# soulogramen:
+    http://ogp.me/ns/apps/soulogramen#">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
+	<meta property="fb:app_id" content="<%= app_id %>" /> 
+	<meta property="og:type" content="soulogramen:ramen" /> 
+    <meta property="og:title" content="<%= men.name %>" /> 
+    <meta property="og:image" content="<%= basepath+'/images/'+men.image+'.jpg' %>" /> 
+    <meta property="og:description" content="<%= men.name %>" /> 
+    <meta property="og:url" content="<%= basepath+'/ramen/'+menid %>">
+    <script>
+    function postEat()
+    {
+        FB.api('/me/soulogramen:eat' + 
+                    '?ramen=<%= basepath+'/ramen/'+menid %>','post',
+            function(response) {
+            	if (!response || response.error) {
+                    alert('Error occured:' + response.error.message);
+            	} else {
+                	alert('Post was successful! Action ID: ' + response.id);
+                }
+        });
+    }
+    </script>
+<head/> 
+<body> 
+<div id="fb-root"></div>
+
+<div><img src="<%= basepath+'/images/'+men.image+'.jpg' %>" /></div>
+<div><h3><%= men.name %></h3></div>
+<form>
+            <input type="button" value="Eat" onclick="postEat()" />
+        </form>
+<script>
+    FB.init({ 
+        appId:'<%= app_id %>', 
+        cookie:true, 
+        status:true, 
+        xfbml:true
+    });
+</script>
+
+</body> 
+</html>

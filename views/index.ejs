@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+     xmlns:fb="https://www.facebook.com/2008/fbml"> 
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
+<head/> 
+<body> 
+<div id="fb-root"></div>
+<div>
+	<img src="images/270071_2126080868134_1129283437_2525225_6312122_n.jpg" width="200"/>
+</div>
+
+<div id="ramen">
+   <ul>
+       <% for(var r in ramen) { %>
+       <li><%= ramen[r].name %></li>
+       <% } %>
+   </ul>
+</div>
+
+<div id="activity">
+    <fb:activity actions="souloframen:cook"></fb:activity>
+</div>
+
+<div id="login">
+	<fb:add-to-timeline mode="button" perms="user_activities,user_likes,user_checkins,user_photos,publish_actions,publish_stream,offline_access,publish_checkins,friends_activities,friends_checkins,friends_likes,user_location,friends_location,friends_photos"></fb:add-to-timeline>
+	<div id="logout" style="display:none"><a href="#" onclick="FB.logout();">Logout</a></div>
+</div>
+
+<script>
+    FB.init({ 
+        appId:'<%= app_id %>', 
+        cookie:true, 
+        status:true, 
+        xfbml:true
+    });
+    
+    //Reload page after login
+    FB.Event.subscribe('auth.sessionChange', function(response) {
+			window.location.reload();
+		});
+		
+    FB.getLoginStatus(function(response) {
+        if (response.session) {
+    		// logged in and connected user
+    		$('#logout').show();
+    		$('#activity').show();
+  		} else {
+  			$('#activity').hide();
+  		    FB.XFBML.parse();
+  		}
+	});    
+</script>
+
+
+</body> 
+</html>
